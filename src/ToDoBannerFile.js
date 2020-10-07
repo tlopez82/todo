@@ -1,9 +1,12 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 
 export class ToDoBanner extends Component {
 
-// banner features
-render = () =>
-<h4>{this.props.userName}</h4>
+    // banner features
+    render = () =>
+        <h4 className="bg-primary text-white text-center p-2">
+            {this.props.userName}'s To Do List
+            ({this.props.todoItems.filter(x => !x.done).length} items still not done)
+        </h4>
 
 }

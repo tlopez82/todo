@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 //import logo from './logo.svg';
 import './App.css';
 import {ToDoBanner} from './ToDoBannerFile';
+import 'bootstrap/dist/css/bootstrap.css';
 
 //Alt+shift+f to align
 
@@ -37,6 +38,7 @@ export default class App extends Component {
 
   <ToDoBanner     
     userName = {this.state.userName}
+    todoItems = {this.state.todoItems}
   />
 
   </div>
