@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import './App.css';
 import { ToDoBanner } from './ToDoBannerFile';
 import { ToDoRow } from './ToDoRowFile';
+import { VisibilityControl } from './VisibilityControlFile';
 import 'bootstrap/dist/css/bootstrap.css';
 
 //Alt+shift+f to align
@@ -27,7 +28,8 @@ export default class App extends Component {
         { action: "Spread chai-leaves", done: false },
         { action: "Get car to shop", done: true },
         { action: "Rake Leaves", done: false },
-      ]
+      ],
+      showCompleted: true
     }
 
   }//end of constructor
@@ -39,21 +41,21 @@ export default class App extends Component {
       <ToDoRow
         key={y.action}
         oneMappedItem={y}
-        callback = {this.toggleToDoFunction}
+        callback={this.toggleToDoFunction}
       />
     );
 
-// toggleToDoFunction is the callback function of the <ToDoRow> component
-// this function receives the value or object that is passed into the callback property of <ToDoRow>. This passed data is being called "myToggledItem"
+  // toggleToDoFunction is the callback function of the <ToDoRow> component
+  // this function receives the value or object that is passed into the callback property of <ToDoRow>. This passed data is being called "myToggledItem"
 
-//  When setState is invoked, React will make a new object with the changes.  Under the hood React will compare the new object with the DOM version of the object.  If there is a difference between those 2 objects then the DOM will get re-drawn (NOT a reload) and then we see the changes.
+  //  When setState is invoked, React will make a new object with the changes.  Under the hood React will compare the new object with the DOM version of the object.  If there is a difference between those 2 objects then the DOM will get re-drawn (NOT a reload) and then we see the changes.
 
 
-    toggleToDoFunction = (myToggledItem) => this.setState({
-      todoItems: this.state.todoItems.map(
-        x => x.action == myToggledItem.action ? { ...x, done: !x.done } : x 
-      )
-    });
+  toggleToDoFunction = (myToggledItem) => this.setState({
+    todoItems: this.state.todoItems.map(
+      x => x.action == myToggledItem.action ? { ...x, done: !x.done } : x
+    )
+  });
 
   render = () =>
     <div>
@@ -78,19 +80,31 @@ export default class App extends Component {
       </table>
 
       <div className="bg-secondary text-white text-center p-2">
+        {/* Hide and show features*/}
+        <VisibilityControl
+
+          toggleVisibility="Completed Tasks"
+          isChecked={this.state.showCompleted}
+          callback={x => this.setState({
+            showCompleted: x
+          })}
+
+        />
 
       </div>
-       {/* Bottom table is only for items with "done" property is true*/}
-      <table className="table table-striped table-border">
-        <thead>
-          <th>Description</th>
-          <th>Complete</th>
-        </thead>
-        <tbody>
-          {this.todoTableRowsFunction(true)}
-        </tbody>
-      </table>
+      {/* Bottom table is only for items with "done" property is true*/}
 
+      {this.state.showCompleted &&
+        <table className="table table-striped table-border">
+          <thead>
+            <th>Description</th>
+            <th>Complete</th>
+          </thead>
+          <tbody>
+            {this.todoTableRowsFunction(true)}
+          </tbody>
+        </table>
+      }
     </div>
 
 }//end of App Component
