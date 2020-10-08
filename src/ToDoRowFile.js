@@ -11,6 +11,7 @@ export class ToDoRow extends Component {
             <td>
                 <input type="checkbox"
                     checked={this.props.oneMappedItem.done}
+                    onChange={() => this.props.callback(this.props.oneMappedItem)}
                    
                 />
             </td>
