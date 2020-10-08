@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 //import logo from './logo.svg';
 import './App.css';
-import {ToDoBanner} from './ToDoBannerFile';
+import { ToDoBanner } from './ToDoBannerFile';
+import { ToDoRow } from './ToDoRowFile';
 import 'bootstrap/dist/css/bootstrap.css';
 
 //Alt+shift+f to align
@@ -21,27 +22,63 @@ export default class App extends Component {
     this.state = {
       userName: "Tim",
       todoItems: [
-        { action: "Move burn pile", done: false},
-        { action: "Sweep Garage", done: false},
-        { action: "Spread chai-leaves", done: false},
-        { action: "Get car to shop", done: true},
-        { action: "Rake Leaves", done: false},
+        { action: "Move burn pile", done: false },
+        { action: "Sweep Garage", done: false },
+        { action: "Spread chai-leaves", done: false },
+        { action: "Get car to shop", done: true },
+        { action: "Rake Leaves", done: false },
       ]
     }
 
   }//end of constructor
 
+  // Table function
+  //If the todo items "done" property experiences a change event (i.e. checking the Mark As Complete box in the UI)then we toggle the todo item
+  todoTableRowsFunction = (statusOfTask) =>
+    this.state.todoItems.filter(x => x.done == statusOfTask).map(y =>
+      <ToDoRow
+        key={y.action}
+        oneMappedItem={y}
+      />
+    );
+
   render = () =>
-  <div>
-    {/*Banner Features*/}
-    {/*Below is referred to as a reat stub*/}
+    <div>
+      {/*Banner Features*/}
+      {/*Below is referred to as a reat stub*/}
 
-  <ToDoBanner     
-    userName = {this.state.userName}
-    todoItems = {this.state.todoItems}
-  />
+      <ToDoBanner
+        userName={this.state.userName}
+        todoItems={this.state.todoItems}
+      />
 
-  </div>
+      {/*Table Features*/}
+      {/* Top table is only for items with "done" property is false*/}
+      <table className="table table-striped table-border">
+        <thead>
+          <th>Description</th>
+          <th>Mark As Complete</th>
+        </thead>
+        <tbody>
+          {this.todoTableRowsFunction(false)}
+        </tbody>
+      </table>
+
+      <div className="bg-secondary text-white text-center p-2">
+
+      </div>
+       {/* Bottom table is only for items with "done" property is true*/}
+      <table className="table table-striped table-border">
+        <thead>
+          <th>Description</th>
+          <th>Incomplete</th>
+        </thead>
+        <tbody>
+          {this.todoTableRowsFunction(true)}
+        </tbody>
+      </table>
+
+    </div>
 
 }//end of App Component
 
